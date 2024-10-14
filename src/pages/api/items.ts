@@ -1,6 +1,5 @@
 // src/pages/api/items.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ObjectId } from 'mongodb';
 import connectToDatabase from '@/lib/mongodb';
 import { Item } from '@/models/Item';
 
@@ -22,16 +21,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     case 'PUT':
       const { _id, ...updateData } = req.body;
-      await collection.updateOne({ _id: new ObjectId(_id) }, { $set: updateData });
+      await collection.updateOne({ _id }, { $set: updateData });
       res.status(200).json({ _id, ...updateData });
       break;
 
     case 'DELETE':
-      const { _id: deleteId } = req.body;
-      if (!deleteId) {
-        return res.status(400).json({ error: 'Item ID is required for deletion' });
-      }
-      await collection.deleteOne({ _id: new ObjectId(deleteId) });
+      await collection.deleteOne({ _id: req.body._id });
       res.status(204).end();
       break;
 

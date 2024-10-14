@@ -3,11 +3,12 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   if (mongoose.connection.readyState >= 1) {
-    return;
+    return; // If already connected, exit the function
   }
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI!);
+    // Connect to the MongoDB database using the URI
+    await mongoose.connect(process.env.MONGODB_URI!)
     console.log('MongoDB connected');
   } catch (error) {
     console.error('MongoDB connection error:', error);

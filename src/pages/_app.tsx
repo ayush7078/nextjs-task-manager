@@ -1,11 +1,10 @@
 import '@/styles/globals.css'; 
-import type { AppProps } from 'next/app';
 import Navbar from './components/Navbar';
 import { useEffect, useState } from 'react';
 import Auth from './auth';
 import Home from './home';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {

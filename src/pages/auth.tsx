@@ -9,6 +9,7 @@ const Auth = ({ onLogin }: AuthProps) => {
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState(''); // New state for confirm password
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -16,6 +17,14 @@ const Auth = ({ onLogin }: AuthProps) => {
         e.preventDefault();
         setLoading(true);
         setErrorMessage(''); // Reset any previous error messages
+
+        // Check if passwords match only on registration
+        if (!isLogin && password !== confirmPassword) {
+            setErrorMessage("Passwords do not match.");
+            setLoading(false);
+            return;
+        }
+
         const url = '/api/auth'; 
 
         try {
@@ -68,6 +77,17 @@ const Auth = ({ onLogin }: AuthProps) => {
                         required
                         className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
+                    {/* Confirm Password Field */}
+                    {!isLogin && (
+                        <input
+                            type="password"
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    )}
                     <button
                         type="submit"
                         className={`w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}

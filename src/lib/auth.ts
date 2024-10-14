@@ -13,10 +13,10 @@ export const generateToken = (userId: string, email: string): string => {
     return token;
 };
 
-export const verifyToken = (token: string): any => {
+export const verifyToken = (token: string): object | null => {
     try {
-        return jwt.verify(token, JWT_SECRET);
-    } catch (error) {
+        return jwt.verify(token, JWT_SECRET) as object;
+    } catch {
         return null; // If the token is invalid or expired, return null
     }
 };
